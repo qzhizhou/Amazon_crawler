@@ -12,15 +12,18 @@ import java.util.List;
  * Created by Ling on 5/7/17.
  */
 public class CrawlerMain {
+    static final String rawQueryDataFilePath = "/home/vagrant/Desktop/rawQuery.txt";
+    static final String adsDataFilePath = "/home/vagrant/Desktop/output.txt";
+    static final String proxyFilePath = "/home/vagrant/Desktop/proxylist.csv";
     public static void main(String[] args) throws IOException {
-        if(args.length < 2)
-        {
-            System.out.println("Usage: Crawler <rawQueryDataFilePath> <adsDataFilePath> <proxyFilePath>");
-            System.exit(0);
-        }
-        String rawQueryDataFilePath = args[0];
-        String adsDataFilePath = args[1];
-        String proxyFilePath = args[2];
+//        if(args.length < 3)
+//        {
+//            System.out.println("Usage: Crawler <rawQueryDataFilePath> <adsDataFilePath> <proxyFilePath>");
+//            System.exit(0);
+//        }
+//        String rawQueryDataFilePath = args[0];
+//        String adsDataFilePath = args[1];
+//        String proxyFilePath = args[2];
 
         ObjectMapper mapper = new ObjectMapper();
         AmazonCrawler crawler = new AmazonCrawler(proxyFilePath);
@@ -48,7 +51,7 @@ public class CrawlerMain {
 
                 List<Ad> ads =  crawler.getAdBasicInfoByQuery(query, bidPrice, campaignId, queryGroupId);
                 for(Ad ad : ads) {
-                    String jsonInString = "= mapper.writeValueAsString(ad);";
+                    String jsonInString = mapper.writeValueAsString(ad);
                     //System.out.println(jsonInString);
                     bufferedWriterForAds.write(jsonInString);
                     bufferedWriterForAds.newLine();
