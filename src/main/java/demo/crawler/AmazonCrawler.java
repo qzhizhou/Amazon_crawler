@@ -19,6 +19,7 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.print.Doc;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -112,13 +113,16 @@ public class AmazonCrawler {
         }
     }
 
-    private String getQueryUrl(String query) {
+    private String getQueryUrl(String query, int page) {
         final String AMAZON_QUERY_URL = "https://www.amazon.com/s/ref=nb_sb_noss?field-keywords=";
-        return AMAZON_QUERY_URL + query;
+        String pagePara = (page == 0) ? "" : "&page=" + page;
+        return AMAZON_QUERY_URL + query + pagePara;
     }
 
     //key words = cleaned title
     private List<String> cleanAndTokenize(String str) throws IOException {
+        if(str == null) return null;
+
         List<String> tokens = new ArrayList<>();
 
         //tokenize
@@ -155,7 +159,7 @@ public class AmazonCrawler {
         try {
             changeProxy();
 
-            String url = getQueryUrl(query);
+            String url = getQueryUrl(query, 1);
             HashMap<String,String> headers = new HashMap<String,String>();
             headers.put("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
             headers.put("Accept-Encoding", "gzip, deflate, sdch, br");
@@ -168,118 +172,41 @@ public class AmazonCrawler {
             for(int i = 0; i < results.size(); i++) {
                 Ad ad = new Ad();
 
-                //detail url
-                String detail_path = "#result_"+Integer.toString(i)+" > div > div > div > div.a-fixed-left-grid-col.a-col-left > div > div > a";
-                Element detail_url_ele = doc.select(detail_path).first();
-                if(detail_url_ele != null) {
-                    String detail_url = detail_url_ele.attr("href");
-                    //System.out.println("detail = " + detail_url);
-                    String normalizedUrl = normalizeUrl(detail_url);
-                    if(crawledUrl.contains(normalizedUrl)) {
-                        logger.info("skipped crawled url:" + normalizedUrl);
-                        continue;
-                    }
-                    crawledUrl.add(normalizedUrl);
-                    ad.detail_url = normalizedUrl;
-                } else {
-                    logger.error("cannot parse detail for query:" + query + ", title: " + ad.title);
+                ad.detail_url = getDetailUrlFromDoc(doc, i);
+                if(ad.detail_url.isEmpty()) {
+                    //cannot parse or queried
+                    logger.error("url: " + url);
                     continue;
                 }
 
                 ad.query = cleanString(query);
                 ad.query_group_id = queryGroupId;
 
-                //#result_2 > div > div > div > div.a-fixed-left-grid-col.a-col-right > div.a-row.a-spacing-small > div:nth-child(1) > a > h2
-                //#result_3 > div > div > div > div.a-fixed-left-grid-col.a-col-right > div.a-row.a-spacing-small > div:nth-child(1) > a > h2
-                //#result_0 > div > div > div > div.a-fixed-left-grid-col.a-col-right > div.a-row.a-spacing-small > div:nth-child(1) > a > h2
-                //#result_1 > div > div > div > div.a-fixed-left-grid-col.a-col-right > div.a-row.a-spacing-small > div:nth-child(1) > a > h2
-                for (String title : titleSelectorList) {
-                    String title_ele_path = "#result_"+Integer.toString(i)+ title;
-                    Element title_ele = doc.select(title_ele_path).first();
-                    if(title_ele != null) {
-                        //System.out.println("title = " + title_ele.text());
-                        ad.title = title_ele.text();
-                        ad.keyWords = cleanAndTokenize(ad.title);
-                        break;
-                    }
-                }
-
-                if (ad.title.equals("")) {
-                    logger.error("cannot parse title for query: " + query);
+                ad.title = getTitleFromDoc(doc, i);
+                if (ad.title.isEmpty()) {
+                    //cannot parse
+                    logger.error("url: " + url);
                     continue;
-                }
-                //#result_0 > div > div > div > div.a-fixed-left-grid-col.a-col-left > div > div > a > img
-
-                //thumbnail
-                String thumbnail_path = "#result_"+Integer.toString(i)+" > div > div > div > div.a-fixed-left-grid-col.a-col-left > div > div > a > img";
-                Element thumbnail_ele = doc.select(thumbnail_path).first();
-                if(thumbnail_ele != null) {
-                    //System.out.println("thumbnail = " + thumbnail_ele.attr("src"));
-                    ad.thumbnail = thumbnail_ele.attr("src");
                 } else {
-                    logger.error("cannot parse thumbnail for query:" + query + ", title: " + ad.title);
+                    ad.keyWords = cleanAndTokenize(ad.title);
+                }
+
+                ad.thumbnail = getThumbnailFromDoc(doc, i);
+                if(ad.thumbnail.isEmpty()) {
+                    logger.error("url: " + url);
                     continue;
                 }
 
-                //brand
-                String brand_path = "#result_"+Integer.toString(i)+" > div > div > div > div.a-fixed-left-grid-col.a-col-right > div.a-row.a-spacing-small > div > span:nth-child(2)";
-                Element brand = doc.select(brand_path).first();
-                if(brand != null) {
-                    //System.out.println("brand = " + brand.text());
-                    ad.brand = brand.text();
-                }
-                //#result_2 > div > div > div > div.a-fixed-left-grid-col.a-col-right > div:nth-child(3) > div.a-column.a-span7 > div.a-row.a-spacing-none > a > span > span > span
+                ad.brand = getBrandFromDoc(doc, i);
+                ad.brand = ad.brand == null ? "" : ad.brand;
+
                 ad.bidPrice = bidPrice;
                 ad.campaignId = campaignId;
-                ad.price = 0.0;
-                //#result_0 > div > div > div > div.a-fixed-left-grid-col.a-col-right > div:nth-child(3) > div.a-column.a-span7 > div.a-row.a-spacing-none > a > span > span > span
 
-                //price
-                String price_whole_path = "#result_"+Integer.toString(i)+" > div > div > div > div.a-fixed-left-grid-col.a-col-right > div:nth-child(3) > div.a-column.a-span7 > div.a-row.a-spacing-none > a > span > span > span";
-                String price_fraction_path = "#result_"+Integer.toString(i)+" > div > div > div > div.a-fixed-left-grid-col.a-col-right > div:nth-child(3) > div.a-column.a-span7 > div.a-row.a-spacing-none > a > span > span > sup.sx-price-fractional";
-                Element price_whole_ele = doc.select(price_whole_path).first();
-                if(price_whole_ele != null) {
-                    String price_whole = price_whole_ele.text();
-                    //System.out.println("price whole = " + price_whole);
-                    //remove ","
-                    //1,000
-                    if (price_whole.contains(",")) {
-                        price_whole = price_whole.replaceAll(",","");
-                    }
+                ad.price = getPriceFromDoc(doc, i);
 
-                    try {
-                        ad.price = Double.parseDouble(price_whole);
-                    } catch (NumberFormatException ne) {
-                        // TODO Auto-generated catch block
-                        ne.printStackTrace();
-                        //log
-                    }
-                }
+                ad.category = getCategoryFromDoc(doc, i);
 
-                Element price_fraction_ele = doc.select(price_fraction_path).first();
-                if(price_fraction_ele != null) {
-                    //System.out.println("price fraction = " + price_fraction_ele.text());
-                    try {
-                        ad.price = ad.price + Double.parseDouble(price_fraction_ele.text()) / 100.0;
-                    } catch (NumberFormatException ne) {
-                        ne.printStackTrace();
-                    }
-                }
-                //System.out.println("price = " + ad.price );
-
-                //category
-                for (String category : categorySelectorList) {
-                    Element category_ele = doc.select(category).first();
-                    if(category_ele != null) {
-                        //System.out.println("category = " + category_ele.text());
-                        ad.category = category_ele.text();
-                        break;
-                    }
-                }
-                if (ad.category.equals("")) {
-                    logger.error("cannot parse category for query:" + query + ", title: " + ad.title);
-                    continue;
-                }
                 adList.add(ad);
             }
         } catch (IOException e) {
@@ -287,5 +214,110 @@ public class AmazonCrawler {
             e.printStackTrace();
         }
         return adList;
+    }
+
+    private String getDetailUrlFromDoc(Document document, int itemNum) {
+        //detail url
+        String detail_path = "#result_"+ Integer.toString(itemNum)+ " > div > div > div > div.a-fixed-left-grid-col.a-col-left > div > div > a";
+        Element detail_url_ele = document.select(detail_path).first();
+        if(detail_url_ele != null) {
+            String detail_url = detail_url_ele.attr("href");
+            String normalizedUrl = normalizeUrl(detail_url);
+            if(crawledUrl.contains(normalizedUrl)) {
+                logger.info("skipped crawled url:" + normalizedUrl);
+                return "";
+            }
+            crawledUrl.add(normalizedUrl);
+            return normalizedUrl;
+        } else {
+            logger.error("failed to parse detail");
+            return "";
+        }
+    }
+
+    private String getTitleFromDoc(Document document, int itemNum) {
+        //#result_2 > div > div > div > div.a-fixed-left-grid-col.a-col-right > div.a-row.a-spacing-small > div:nth-child(1) > a > h2
+        //#result_3 > div > div > div > div.a-fixed-left-grid-col.a-col-right > div.a-row.a-spacing-small > div:nth-child(1) > a > h2
+        //#result_0 > div > div > div > div.a-fixed-left-grid-col.a-col-right > div.a-row.a-spacing-small > div:nth-child(1) > a > h2
+        //#result_1 > div > div > div > div.a-fixed-left-grid-col.a-col-right > div.a-row.a-spacing-small > div:nth-child(1) > a > h2
+        for (String title : titleSelectorList) {
+            String title_ele_path = "#result_"+Integer.toString(itemNum)+ title;
+            Element title_ele = document.select(title_ele_path).first();
+            if(title_ele != null) {
+                //System.out.println("title = " + title_ele.text());
+                return title_ele.text();
+            }
+        }
+        logger.error("failed to cannot parse title");
+        return "";
+    }
+
+    private String getThumbnailFromDoc(Document document, int itemNum) {
+        String thumbnail_path = "#result_"+Integer.toString(itemNum)+" > div > div > div > div.a-fixed-left-grid-col.a-col-left > div > div > a > img";
+        Element thumbnail_ele = document.select(thumbnail_path).first();
+        if(thumbnail_ele != null) {
+            //System.out.println("thumbnail = " + thumbnail_ele.attr("src"));
+            return thumbnail_ele.attr("src");
+        } else {
+            logger.error("failed to parse thumbnail");
+            return "";
+        }
+    }
+
+    private String getBrandFromDoc(Document document, int itemNum) {
+        String brand_path = "#result_"+Integer.toString(itemNum)+" > div > div > div > div.a-fixed-left-grid-col.a-col-right > div.a-row.a-spacing-small > div > span:nth-child(2)";
+        Element brand = document.select(brand_path).first();
+        if(brand != null) {
+            //System.out.println("brand = " + brand.text());
+            return brand.text();
+        } else {
+            logger.error("failed to parse brand");
+            return "";
+        }
+    }
+
+    private Double getPriceFromDoc(Document document, int itemNum) {
+        //price
+        double price = 0;
+        String price_whole_path = "#result_" + Integer.toString(itemNum) + " > div > div > div > div.a-fixed-left-grid-col.a-col-right > div:nth-child(3) > div.a-column.a-span7 > div:nth-child(1) > div:nth-child(3) > a > span > span > span";
+        String price_fraction_path = "#result_" + Integer.toString(itemNum) + " > div > div > div > div.a-fixed-left-grid-col.a-col-right > div:nth-child(2) > div.a-column.a-span7 > div.a-row.a-spacing-none > a > span > span > sup.sx-price-fractional";
+        Element price_whole_ele = document.select(price_whole_path).first();
+        Element price_fraction_ele = document.select(price_fraction_path).first();
+        if(price_whole_ele != null) {
+            String price_whole = price_whole_ele.text();
+            //System.out.println("price whole = " + price_whole);
+            //remove ","
+            //1,000
+            price_whole = price_whole.replaceAll(",","");
+            try {
+                price = Double.parseDouble(price_whole);
+                if(price_fraction_ele != null) {
+                    price += Double.parseDouble(price_fraction_ele.text()) / 100.0;
+                }
+            } catch (NumberFormatException ne) {
+                // TODO Auto-generated catch block
+                ne.printStackTrace();
+                logger.error("caught error in parsing price. price_whole ele = " + price_whole);
+            }
+            return price;
+        } else {
+            logger.error("failed to get price ele");
+            return 0.0;
+        }
+    }
+
+    private String getCategoryFromDoc(Document document, int itemNum) {
+        //System.out.println("price = " + ad.price );
+
+        //category
+        for (String category : categorySelectorList) {
+            Element category_ele = document.select(category).first();
+            if(category_ele != null) {
+                //System.out.println("category = " + category_ele.text());
+                return category_ele.text();
+            }
+        }
+        logger.error("failed to parse category");
+        return "";
     }
 }

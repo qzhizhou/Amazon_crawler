@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdc0ae0f-fff5-4dc4-8265-6cc8a8320a3b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/demo/crawler/AmazonCrawler.java" afterPath="$PROJECT_DIR$/src/main/java/demo/crawler/AmazonCrawler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/demo/crawler/CrawlerMain.java" afterPath="$PROJECT_DIR$/src/main/java/demo/crawler/CrawlerMain.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -34,18 +31,21 @@
       <file leaf-file-name="Ad.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/demo/ad/Ad.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
+            <state relative-caret-position="432">
               <caret line="31" column="27" lean-forward="false" selection-start-line="31" selection-start-column="27" selection-end-line="31" selection-end-column="27" />
-              <folding />
+              <folding>
+                <element signature="e#838#839#0" expanded="true" />
+                <element signature="e#872#873#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CrawlerMain.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="CrawlerMain.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/demo/crawler/CrawlerMain.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="406">
-              <caret line="84" column="36" lean-forward="false" selection-start-line="84" selection-start-column="36" selection-end-line="84" selection-end-column="36" />
+            <state relative-caret-position="304">
+              <caret line="66" column="0" lean-forward="true" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -53,17 +53,15 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AmazonCrawler.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="AmazonCrawler.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/demo/crawler/AmazonCrawler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="199" column="26" lean-forward="false" selection-start-line="199" selection-start-column="26" selection-end-line="199" selection-end-column="26" />
+            <state relative-caret-position="290">
+              <caret line="284" column="10" lean-forward="false" selection-start-line="284" selection-start-column="10" selection-end-line="284" selection-end-column="10" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#9469#9559#0" expanded="false" />
-                <element signature="e#10940#11103#0" expanded="false" />
-                <element signature="e#11820#11873#0" expanded="false" />
-                <element signature="e#12920#12965#0" expanded="false" />
+                <element signature="e#13036#13089#0" expanded="false" />
+                <element signature="e#13940#13985#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -145,8 +143,8 @@
         <option value="$PROJECT_DIR$/src/test/java/demo/crawler/CrawlerMainTest.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/src/main/java/demo/crawler/AmazonCrawler.java" />
         <option value="$PROJECT_DIR$/src/main/java/demo/crawler/CrawlerMain.java" />
+        <option value="$PROJECT_DIR$/src/main/java/demo/crawler/AmazonCrawler.java" />
       </list>
     </option>
   </component>
@@ -893,7 +891,7 @@
       <workItem from="1494193231979" duration="13000" />
       <workItem from="1494193292132" duration="5269000" />
       <workItem from="1494208605818" duration="23309000" />
-      <workItem from="1494274813141" duration="1184000" />
+      <workItem from="1494274813141" duration="5600000" />
     </task>
     <servers />
   </component>
@@ -930,7 +928,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="29775000" />
+    <option name="totallyTimeSpent" value="34191000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="25" width="1922" height="926" extended-state="6" />
@@ -946,7 +944,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32630274" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32630274" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23076923" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -975,7 +973,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="4" />
+      <option name="time" value="5" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -998,7 +996,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="527">
           <caret line="31" column="27" lean-forward="false" selection-start-line="31" selection-start-column="27" selection-end-line="31" selection-end-column="27" />
-          <folding />
+          <folding>
+            <element signature="e#838#839#0" expanded="true" />
+            <element signature="e#872#873#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1037,10 +1038,8 @@
           <caret line="155" column="26" lean-forward="false" selection-start-line="155" selection-start-column="26" selection-end-line="155" selection-end-column="26" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#9469#9559#0" expanded="false" />
-            <element signature="e#10940#11103#0" expanded="false" />
-            <element signature="e#11820#11873#0" expanded="false" />
-            <element signature="e#12920#12965#0" expanded="false" />
+            <element signature="e#13036#13089#0" expanded="false" />
+            <element signature="e#13940#13985#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1069,7 +1068,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="476">
           <caret line="28" column="23" lean-forward="false" selection-start-line="28" selection-start-column="23" selection-end-line="28" selection-end-column="23" />
-          <folding />
+          <folding>
+            <element signature="e#838#839#0" expanded="true" />
+            <element signature="e#872#873#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1089,10 +1091,8 @@
           <caret line="70" column="29" lean-forward="true" selection-start-line="70" selection-start-column="29" selection-end-line="70" selection-end-column="29" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#9469#9559#0" expanded="false" />
-            <element signature="e#10940#11103#0" expanded="false" />
-            <element signature="e#11820#11873#0" expanded="false" />
-            <element signature="e#12920#12965#0" expanded="false" />
+            <element signature="e#13036#13089#0" expanded="false" />
+            <element signature="e#13940#13985#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1111,14 +1111,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1904">
           <caret line="168" column="17" lean-forward="false" selection-start-line="168" selection-start-column="17" selection-end-line="168" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/demo/ad/Ad.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="31" column="27" lean-forward="false" selection-start-line="31" selection-start-column="27" selection-end-line="31" selection-end-column="27" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1161,26 +1153,35 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/demo/crawler/AmazonCrawler.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/demo/crawler/CrawlerMain.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="199" column="26" lean-forward="false" selection-start-line="199" selection-start-column="26" selection-end-line="199" selection-end-column="26" />
+        <state relative-caret-position="304">
+          <caret line="66" column="0" lean-forward="true" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#9469#9559#0" expanded="false" />
-            <element signature="e#10940#11103#0" expanded="false" />
-            <element signature="e#11820#11873#0" expanded="false" />
-            <element signature="e#12920#12965#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/demo/crawler/CrawlerMain.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/demo/ad/Ad.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="406">
-          <caret line="84" column="36" lean-forward="false" selection-start-line="84" selection-start-column="36" selection-end-line="84" selection-end-column="36" />
+        <state relative-caret-position="432">
+          <caret line="31" column="27" lean-forward="false" selection-start-line="31" selection-start-column="27" selection-end-line="31" selection-end-column="27" />
+          <folding>
+            <element signature="e#838#839#0" expanded="true" />
+            <element signature="e#872#873#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/demo/crawler/AmazonCrawler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="290">
+          <caret line="284" column="10" lean-forward="false" selection-start-line="284" selection-start-column="10" selection-end-line="284" selection-end-column="10" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#13036#13089#0" expanded="false" />
+            <element signature="e#13940#13985#0" expanded="false" />
           </folding>
         </state>
       </provider>
