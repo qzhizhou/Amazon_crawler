@@ -56,12 +56,13 @@
       <file leaf-file-name="AmazonCrawler.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/demo/crawler/AmazonCrawler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="290">
-              <caret line="284" column="10" lean-forward="false" selection-start-line="284" selection-start-column="10" selection-end-line="284" selection-end-column="10" />
+            <state relative-caret-position="341">
+              <caret line="117" column="36" lean-forward="false" selection-start-line="117" selection-start-column="36" selection-end-line="117" selection-end-column="36" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#13036#13089#0" expanded="false" />
-                <element signature="e#13940#13985#0" expanded="false" />
+                <element signature="e#6907#6922#0" expanded="true" />
+                <element signature="e#12999#13052#0" expanded="false" />
+                <element signature="e#13848#13893#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -124,6 +125,7 @@
       <find>contains</find>
       <find>title =</find>
       <find>System</find>
+      <find>ski[</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -891,7 +893,7 @@
       <workItem from="1494193231979" duration="13000" />
       <workItem from="1494193292132" duration="5269000" />
       <workItem from="1494208605818" duration="23309000" />
-      <workItem from="1494274813141" duration="5600000" />
+      <workItem from="1494274813141" duration="6649000" />
     </task>
     <servers />
   </component>
@@ -928,7 +930,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="34191000" />
+    <option name="totallyTimeSpent" value="35240000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="25" width="1922" height="926" extended-state="6" />
@@ -951,6 +953,7 @@
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14164004" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287841" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -962,7 +965,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1038,8 +1040,9 @@
           <caret line="155" column="26" lean-forward="false" selection-start-line="155" selection-start-column="26" selection-end-line="155" selection-end-column="26" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#13036#13089#0" expanded="false" />
-            <element signature="e#13940#13985#0" expanded="false" />
+            <element signature="e#6907#6922#0" expanded="true" />
+            <element signature="e#12999#13052#0" expanded="false" />
+            <element signature="e#13848#13893#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1091,8 +1094,9 @@
           <caret line="70" column="29" lean-forward="true" selection-start-line="70" selection-start-column="29" selection-end-line="70" selection-end-column="29" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#13036#13089#0" expanded="false" />
-            <element signature="e#13940#13985#0" expanded="false" />
+            <element signature="e#6907#6922#0" expanded="true" />
+            <element signature="e#12999#13052#0" expanded="false" />
+            <element signature="e#13848#13893#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1176,12 +1180,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/demo/crawler/AmazonCrawler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="284" column="10" lean-forward="false" selection-start-line="284" selection-start-column="10" selection-end-line="284" selection-end-column="10" />
+        <state relative-caret-position="341">
+          <caret line="117" column="36" lean-forward="false" selection-start-line="117" selection-start-column="36" selection-end-line="117" selection-end-column="36" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#13036#13089#0" expanded="false" />
-            <element signature="e#13940#13985#0" expanded="false" />
+            <element signature="e#6907#6922#0" expanded="true" />
+            <element signature="e#12999#13052#0" expanded="false" />
+            <element signature="e#13848#13893#0" expanded="false" />
           </folding>
         </state>
       </provider>

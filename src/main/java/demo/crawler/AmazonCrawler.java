@@ -115,7 +115,7 @@ public class AmazonCrawler {
 
     private String getQueryUrl(String query, int page) {
         final String AMAZON_QUERY_URL = "https://www.amazon.com/s/ref=nb_sb_noss?field-keywords=";
-        String pagePara = (page == 0) ? "" : "&page=" + page;
+        String pagePara = (page == 1) ? "" : "&page=" + page;
         return AMAZON_QUERY_URL + query + pagePara;
     }
 
@@ -159,55 +159,61 @@ public class AmazonCrawler {
         try {
             changeProxy();
 
-            String url = getQueryUrl(query, 1);
-            HashMap<String,String> headers = new HashMap<String,String>();
-            headers.put("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
-            headers.put("Accept-Encoding", "gzip, deflate, sdch, br");
-            headers.put("Accept-Language", "en-US,en;q=0.8");
-            Document doc = Jsoup.connect(url).headers(headers).userAgent(USER_AGENT).timeout(100000).get();
+            int curGoodIndex = 0;
+            final int numOfPageToQuery = 10;
 
-            Elements results = doc.select("li[data-asin]");
+            for(int curPage = 1; curPage <= numOfPageToQuery; curPage++) {
+                logger.info("getting page: " + curPage);
+                String url = getQueryUrl(query, curPage);
+                HashMap<String,String> headers = new HashMap<String,String>();
+                headers.put("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
+                headers.put("Accept-Encoding", "gzip, deflate, sdch, br");
+                headers.put("Accept-Language", "en-US,en;q=0.8");
+                Document doc = Jsoup.connect(url).headers(headers).userAgent(USER_AGENT).timeout(100000).get();
 
-            //logger.info("num of results = " + results.size());
-            for(int i = 0; i < results.size(); i++) {
-                Ad ad = new Ad();
+                Elements results = doc.select("li[data-asin]");
 
-                ad.detail_url = getDetailUrlFromDoc(doc, i);
-                if(ad.detail_url.isEmpty()) {
-                    //cannot parse or queried
-                    logger.error("url: " + url);
-                    continue;
+                //logger.info("num of results = " + results.size());
+                for(int offset = 0; offset < results.size(); offset++, curGoodIndex++) {
+                    Ad ad = new Ad();
+
+                    ad.detail_url = getDetailUrlFromDoc(doc, curGoodIndex);
+                    if(ad.detail_url.isEmpty()) {
+                        //cannot parse or queried
+                        logger.error("url: " + url);
+                        continue;
+                    }
+
+                    ad.query = cleanString(query);
+                    ad.query_group_id = queryGroupId;
+
+                    ad.title = getTitleFromDoc(doc, curGoodIndex);
+                    if (ad.title.isEmpty()) {
+                        //cannot parse
+                        logger.error("url: " + url);
+                        continue;
+                    } else {
+                        ad.keyWords = cleanAndTokenize(ad.title);
+                    }
+
+                    ad.thumbnail = getThumbnailFromDoc(doc, curGoodIndex);
+                    if(ad.thumbnail.isEmpty()) {
+                        logger.error("url: " + url);
+                        continue;
+                    }
+
+                    ad.brand = getBrandFromDoc(doc, curGoodIndex);
+                    ad.brand = ad.brand == null ? "" : ad.brand;
+
+                    ad.bidPrice = bidPrice;
+                    ad.campaignId = campaignId;
+
+                    ad.price = getPriceFromDoc(doc, curGoodIndex);
+
+                    ad.category = getCategoryFromDoc(doc, curGoodIndex);
+
+                    adList.add(ad);
                 }
-
-                ad.query = cleanString(query);
-                ad.query_group_id = queryGroupId;
-
-                ad.title = getTitleFromDoc(doc, i);
-                if (ad.title.isEmpty()) {
-                    //cannot parse
-                    logger.error("url: " + url);
-                    continue;
-                } else {
-                    ad.keyWords = cleanAndTokenize(ad.title);
-                }
-
-                ad.thumbnail = getThumbnailFromDoc(doc, i);
-                if(ad.thumbnail.isEmpty()) {
-                    logger.error("url: " + url);
-                    continue;
-                }
-
-                ad.brand = getBrandFromDoc(doc, i);
-                ad.brand = ad.brand == null ? "" : ad.brand;
-
-                ad.bidPrice = bidPrice;
-                ad.campaignId = campaignId;
-
-                ad.price = getPriceFromDoc(doc, i);
-
-                ad.category = getCategoryFromDoc(doc, i);
-
-                adList.add(ad);
             }
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -224,7 +230,7 @@ public class AmazonCrawler {
             String detail_url = detail_url_ele.attr("href");
             String normalizedUrl = normalizeUrl(detail_url);
             if(crawledUrl.contains(normalizedUrl)) {
-                logger.info("skipped crawled url:" + normalizedUrl);
+                logger.info("skipped crawled detail url:" + normalizedUrl);
                 return "";
             }
             crawledUrl.add(normalizedUrl);
