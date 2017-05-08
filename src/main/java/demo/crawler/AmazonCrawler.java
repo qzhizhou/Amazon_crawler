@@ -150,7 +150,7 @@ public class AmazonCrawler {
         return res.trim();
     }
 
-    public List<Ad> getAdBasicInfoByQuery(String query, double bidPrice,int campaignId,int queryGroupId) {
+    public List<Ad> getAdBasicInfoByQuery(String query, double bidPrice, int campaignId, int queryGroupId) {
         List<Ad> adList = new ArrayList<>();
         try {
             changeProxy();
