@@ -26,4 +26,9 @@ public class Ad {
     public String query; //required
     public int query_group_id;
     public String category;
+
+    static int currentId = 0;
+    public Ad() {
+        adId = currentId++;
+    }
 }
