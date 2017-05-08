@@ -7,6 +7,7 @@ import demo.ad.Ad;
 import org.apache.lucene.analysis.standard.StandardTokenizer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.util.AttributeFactory;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
@@ -21,6 +22,9 @@ public class CrawlerMain {
     static final String rawQueryDataFilePath = "/home/vagrant/Desktop/rawQuery.txt";
     static final String adsDataFilePath = "/home/vagrant/Desktop/output.txt";
     static final String proxyFilePath = "/home/vagrant/Desktop/proxylist.csv";
+
+    static Logger logger = LoggerFactory.getLogger(CrawlerMain.class);
+
     public static void main(String[] args) throws IOException {
 //        if(args.length < 3)
 //        {
@@ -56,9 +60,9 @@ public class CrawlerMain {
                 int campaignId = Integer.parseInt(fields[2].trim());
                 int queryGroupId = Integer.parseInt(fields[3].trim());
 
-                System.out.println("searching: " + query);
+                logger.info("searching: " + query);
                 List<Ad> ads =  crawler.getAdBasicInfoByQuery(query, bidPrice, campaignId, queryGroupId);
-                System.out.println(ads.isEmpty() ? "no results" : (ads.size() + " results returned"));
+                logger.info(ads.isEmpty() ? "no results" : (ads.size() + " results returned"));
                 String category = ads.isEmpty() ? "" : ads.get(0).category;
 
                 //sub query
@@ -66,19 +70,19 @@ public class CrawlerMain {
                 List<String> subQueryList = getSubQuery(query);
                 subQueryList.removeIf(q -> querySearched.contains(q));
                 querySearched.addAll(subQueryList);
-                System.out.println("size of sub query = " + subQueryList.size());
+                logger.debug("size of sub query = " + subQueryList.size());
                 for(String subQuery : subQueryList) {
-                    System.out.println("searching sub query = " + subQuery);
+                    logger.info("searching sub query = " + subQuery);
                     List<Ad> adsForSubQuery = crawler.getAdBasicInfoByQuery(subQuery, bidPrice, campaignId, queryGroupId);
                     if(adsForSubQuery.isEmpty()) {
-                        System.out.println("skipped empty sub query");
+                        logger.info("skipped empty sub query");
                         continue;
-                    } else if(adsForSubQuery.get(0).category != category) {
-                        System.out.println("skipped sub query with wrong category");
+                    } else if(adsForSubQuery.get(0).category.equals(category) == false) {
+                        logger.info("skipped sub query with wrong category");
                         continue;
                     } else {
                         ads.addAll(adsForSubQuery);
-                        System.out.println("sub query " + subQuery + " added " + adsForSubQuery.size() + " ads.");
+                        logger.info("sub query " + subQuery + " added " + adsForSubQuery.size() + " ads.");
                     }
                 }
 

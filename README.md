@@ -17,3 +17,7 @@ in the project folder. Then you can use java to run the jar file generated in th
 ## Dependencies
 
 All are listed in pom.xml. 
+
+## To Do List
+1. Paging
+2. check if there is bug in Sub query

@@ -197,7 +197,7 @@ public class AmazonCrawler {
                     String title_ele_path = "#result_"+Integer.toString(i)+ title;
                     Element title_ele = doc.select(title_ele_path).first();
                     if(title_ele != null) {
-                        System.out.println("title = " + title_ele.text());
+                        //System.out.println("title = " + title_ele.text());
                         ad.title = title_ele.text();
                         ad.keyWords = cleanAndTokenize(ad.title);
                         break;
