@@ -1,6 +1,17 @@
 package demo.crawler;
 
 import demo.ad.Ad;
+import org.apache.lucene.analysis.CharArraySet;
+import org.apache.lucene.analysis.LowerCaseFilter;
+import org.apache.lucene.analysis.StopFilter;
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.standard.StandardTokenizer;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+import org.apache.lucene.util.Attribute;
+import org.apache.lucene.util.AttributeFactory;
+import org.apache.lucene.util.AttributeImpl;
+import org.apache.lucene.util.Version;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -11,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.StringReader;
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
 import java.util.ArrayList;
@@ -105,6 +117,39 @@ public class AmazonCrawler {
         return AMAZON_QUERY_URL + query;
     }
 
+    //key words = cleaned title
+    private List<String> cleanAndTokenize(String str) throws IOException {
+        List<String> tokens = new ArrayList<>();
+
+        //tokenize
+        AttributeFactory attributeFactory = AttributeFactory.DEFAULT_ATTRIBUTE_FACTORY;
+        StandardTokenizer standardTokenizer = new StandardTokenizer(attributeFactory);
+        standardTokenizer.setReader(new StringReader(str));
+        standardTokenizer.reset();
+
+        //filter stop word
+        CharArraySet stopCharArraySet = CharArraySet.copy(StandardAnalyzer.STOP_WORDS_SET);
+        StopFilter stopFilter = new StopFilter(standardTokenizer, stopCharArraySet);
+
+        //to lower case
+        LowerCaseFilter lowerCaseFilter = new LowerCaseFilter(stopFilter);
+
+        while(lowerCaseFilter.incrementToken()) {
+            tokens.add(lowerCaseFilter.getAttribute(CharTermAttribute.class).toString());
+        }
+
+        return tokens;
+    }
+
+    private String cleanString(String str) throws IOException {
+        String res = new String();
+        List<String> tokens = cleanAndTokenize(str);
+        for(String token : tokens) {
+            res += (token + ' ');
+        }
+        return res.trim();
+    }
+
     public List<Ad> getAdBasicInfoByQuery(String query, double bidPrice,int campaignId,int queryGroupId) {
         List<Ad> adList = new ArrayList<>();
         try {
@@ -141,11 +186,9 @@ public class AmazonCrawler {
                     continue;
                 }
 
-                ad.query = query;
+                ad.query = cleanString(query);
                 ad.query_group_id = queryGroupId;
 
-                //title
-                ad.keyWords = new ArrayList<String>();
                 //#result_2 > div > div > div > div.a-fixed-left-grid-col.a-col-right > div.a-row.a-spacing-small > div:nth-child(1) > a > h2
                 //#result_3 > div > div > div > div.a-fixed-left-grid-col.a-col-right > div.a-row.a-spacing-small > div:nth-child(1) > a > h2
                 //#result_0 > div > div > div > div.a-fixed-left-grid-col.a-col-right > div.a-row.a-spacing-small > div:nth-child(1) > a > h2
@@ -156,6 +199,7 @@ public class AmazonCrawler {
                     if(title_ele != null) {
                         System.out.println("title = " + title_ele.text());
                         ad.title = title_ele.text();
+                        ad.keyWords = cleanAndTokenize(ad.title);
                         break;
                     }
                 }
